@@ -1,6 +1,4 @@
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.Objects;
+import java.util.*;
 
 public class ObligSBinTre<T> implements Beholder<T> {
     private static final class Node<T>{
@@ -38,8 +36,7 @@ public class ObligSBinTre<T> implements Beholder<T> {
     }
 
     @Override
-    public final boolean leggInn(T verdi)    // skal ligge i class SBinTre
-    {
+    public final boolean leggInn(T verdi){
         Objects.requireNonNull(verdi, "Ulovlig med nullverdier!");
 
         Node<T> p = rot;
@@ -51,8 +48,6 @@ public class ObligSBinTre<T> implements Beholder<T> {
             cmp = comp.compare(verdi,p.verdi);     // bruker komparatoren
             p = cmp < 0 ? p.venstre : p.høyre;     // flytter p
         }
-
-        // p er nå null, dvs. ute av treet, q er den siste vi passerte
 
         p = new Node<>(verdi, q);                   // oppretter en ny node
 
@@ -117,12 +112,36 @@ public class ObligSBinTre<T> implements Beholder<T> {
     }
 
     private static <T> Node<T> nesteInorden(Node<T> p) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        Objects.requireNonNull(p);
+
+        if (p.høyre == null){
+            return p.forelder;
+        }
+        else {
+            p = p.høyre;
+            while (p.venstre != null){
+                p = p.venstre;
+            }
+            return p;
+        }
+
     }
 
     @Override
     public String toString() {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        if (antall == 0){
+            return "[]";
+        }
+        Node p = rot;
+        while (p.venstre != null){
+            p = p.venstre;
+        }
+        StringBuilder s = new StringBuilder("[").append(p.verdi);
+        for (int i = 0; i < antall; i++){
+            p = nesteInorden(p);
+            s.append(", ").append(p.verdi);
+        }
+        return s.toString();
     }
 
     public String omvendtString() {
