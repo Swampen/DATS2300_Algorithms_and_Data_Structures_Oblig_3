@@ -98,7 +98,30 @@ public class ObligSBinTre<T> implements Beholder<T> {
     }
 
     public int antall(T verdi) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        Deque<Node> stack = new ArrayDeque<>();
+        Node<T> p = rot;
+        int verdiAntall = 0;
+
+        stack.addFirst(p);
+
+        while(!stack.isEmpty()){
+            Node<T> current = stack.removeFirst();
+
+            if(current.verdi == verdi){
+                verdiAntall++;
+            }
+
+            if(current.høyre != null){
+                stack.addFirst(current.høyre);
+            }
+
+            if(current.venstre != null){
+                stack.addFirst(current.venstre);
+            }
+
+
+        }
+        return verdiAntall;
     }
 
     @Override
