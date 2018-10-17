@@ -157,9 +157,6 @@ public class ObligSBinTre<T> implements Beholder<T> {
     }
 
     public int fjernAlle(T verdi) {
-        if (antall == 0){
-            return 0;
-        }
         int antallFjernet = 0;
         while (fjern(verdi)){
             antallFjernet++;
@@ -279,7 +276,7 @@ public class ObligSBinTre<T> implements Beholder<T> {
     }
 
     public String omvendtString() {
-        java.util.Deque<Node> stack = new java.util.ArrayDeque<>();
+        Deque<Node> stack = new ArrayDeque<>();
         Node p = rot;
         StringJoiner s = new StringJoiner(", ", "[","]");
 
