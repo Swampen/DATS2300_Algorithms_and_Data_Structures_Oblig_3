@@ -175,7 +175,41 @@ public class ObligSBinTre<T> implements Beholder<T> {
     }
 
     public String omvendtString() {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        java.util.Deque<Node> stack = new java.util.ArrayDeque<>();
+
+        //Lett første node på stacken
+        stack.addFirst(rot);
+
+        //Loop så lenge stacken ikke er tom
+        while (!stack.isEmpty()) {
+            //Skriv ut stackens innhold
+            System.out.println("Stackens innhold: " + stack);
+
+            //Hent ut node fra stacken
+            Node current = stack.removeFirst();
+
+            //Skriv ut preorden her
+            System.out.print(current.verdi + ", ");
+
+            //Legg høyre barn på stacken
+            if (current.høyre != null) {
+                stack.addFirst(current.høyre);
+            }
+
+
+            //Skriv ut inorden her
+            //System.out.print(current.value + ", ");
+
+            //Legg venstre barn på stacken
+            if (current.venstre != null) {
+                stack.addFirst(current.venstre);
+            }
+
+            //Skriv ut postorden her
+            //System.out.print(current.value + ", ");
+
+        }
+        return null;
     }
 
     public String høyreGren() {
