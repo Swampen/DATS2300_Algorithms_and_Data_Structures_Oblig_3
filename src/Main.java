@@ -8,6 +8,8 @@ public class Main {
             tre.leggInn(verdi);
         }
         System.out.println(tre); // [1, 2, 4, 4, 4, 6, 7, 7, 8, 9, 10]
+        tre.nullstill();
+        System.out.println(tre);
 
     }
 }

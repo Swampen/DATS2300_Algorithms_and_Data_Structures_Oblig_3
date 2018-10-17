@@ -85,11 +85,86 @@ public class ObligSBinTre<T> implements Beholder<T> {
 
     @Override
     public boolean fjern(T verdi) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        if (verdi == null) {
+            return false;
+        }
+
+        Node<T> p = rot, q = null;
+
+        while (p != null){
+            int cmp = comp.compare(verdi,p.verdi);
+            if (cmp < 0) {
+                q = p;
+                p = p.venstre;
+            }
+            else if (cmp > 0) {
+                q = p;
+                p = p.høyre;
+            }
+            else {
+                break;
+            }
+        }
+
+        if (p == null) {
+            return false;
+        }
+
+        if (p.venstre == null || p.høyre == null)   {
+            Node<T> b = p.venstre != null ? p.venstre : p.høyre;
+            if (p == rot){
+                rot = b;
+            }
+            else if (p == q.venstre) {
+                q.venstre = b;
+                if (b != null) {
+                    b.forelder = q;
+                }
+            }
+            else {
+                q.høyre = b;
+                if (b != null) {
+                    b.forelder = q;
+                }
+            }
+        }
+        else {
+            Node<T> s = null, r = p.høyre;
+            while (r.venstre != null) {
+                r = r.venstre;
+            }
+
+            s = r.forelder;
+            p.verdi = r.verdi;   // kopierer verdien i r til p
+
+            if (s != p){
+                s.venstre = r.høyre;
+                if (r.høyre != null) {
+                    r.høyre.forelder = s.venstre;
+                }
+            }
+            else{
+                s.høyre = r.høyre;
+                if (r.høyre != null) {
+                    r.høyre.forelder = s.høyre;
+                }
+            }
+        }
+
+        antall--;   // det er nå én node mindre i treet
+        return true;
+
     }
 
     public int fjernAlle(T verdi) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        if (antall == 0){
+            return 0;
+        }
+        int antallFjernet = 0;
+        while (fjern(verdi)){
+            antallFjernet++;
+        }
+        return antallFjernet;
     }
 
     @Override
@@ -131,7 +206,36 @@ public class ObligSBinTre<T> implements Beholder<T> {
 
     @Override
     public void nullstill() {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        Node fjern = rot;
+        Node temp = null;
+        while (!tom()){
+            if (nesteInorden(fjern) != null){
+                fjern = nesteInorden(fjern);
+            }else{
+                fjern = rot;
+                while (fjern.venstre != null){
+                    fjern = fjern.venstre;
+                }
+            }
+
+            if (fjern.venstre == null && fjern.høyre == null){
+                if (fjern == rot){
+                    rot = null;
+                    antall--;
+                    break;
+                }
+                temp = fjern.forelder;
+                fjern.forelder = null;
+                if (temp.venstre == fjern){
+                    temp.venstre = null;
+                }else {
+                    temp.høyre = null;
+                }
+                fjern.verdi = null;
+                fjern = temp;
+                antall--;
+            }
+        }
     }
 
     private static <T> Node<T> nesteInorden(Node<T> p) {
