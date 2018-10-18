@@ -301,7 +301,38 @@ public class ObligSBinTre<T> implements Beholder<T> {
 
 
     public String høyreGren() {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        Deque<Node> stack = new ArrayDeque<>();
+        Node p = rot;
+
+        //Loop så lenge stacken ikke er tom
+        while (p != null || !stack.isEmpty()) {
+
+            while (p !=  null) {
+                stack.push(p);
+                p = p.høyre;
+            }
+
+            p = stack.pop();
+            if (p.venstre == null && p.høyre == null){
+                break;
+            }
+            p = p.venstre;
+
+        }
+
+        Deque<Node> forelderStack = new ArrayDeque<>();
+
+        while (p != null){
+            forelderStack.push(p);
+            p = p.forelder;
+        }
+
+        StringJoiner s = new StringJoiner(", ", "[","]");
+        while (!forelderStack.isEmpty()){
+            p = forelderStack.pop();
+            s.add(p.verdi.toString());
+        }
+        return s.toString();
     }
 
     public String lengstGren() {
