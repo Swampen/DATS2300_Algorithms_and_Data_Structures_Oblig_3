@@ -590,7 +590,7 @@ public class Oblig3Test
 
         s = tre2.lengstGren();
 
-        if (!s.equals("[F, H, O, K, J, I]"))
+        if (!s.equals("[F, H, O, K, J, I]")) //gren [F, H, O, K, M, L]
         {
             antallFeil++;
             System.out.print("Oppgave 6j: Feil - du har " + s + ", det skal");

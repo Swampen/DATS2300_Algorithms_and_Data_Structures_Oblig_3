@@ -336,11 +336,66 @@ public class ObligSBinTre<T> implements Beholder<T> {
     }
 
     public String lengstGren() {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        if (antall == 0){
+            return "[]";
+        }
+        String [] strings = grener();
+        String lengste = "";
+
+        if (strings.length == 1){
+            return strings[0];
+        }
+
+        for (int i = 1; i < strings.length; i++){
+            String string1 = strings[i-1];
+            String string2 = strings[i];
+            if (string1.length() >= string2.length()){
+                lengste = string1;
+            }
+        }
+        return lengste;
     }
 
     public String[] grener() {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        Deque<Node> stack = new ArrayDeque<>();
+        Deque<Node> bladStack = new ArrayDeque<>();
+        Deque<Node> hjelpeBladStack = new ArrayDeque<>();
+        Node p = rot;
+        int i = 0;
+        int j = 0;
+
+        while (p != null || !stack.isEmpty()){
+            while (p !=  null){
+                if (p.venstre == null && p.høyre == null){
+                    bladStack.push(p);
+                    i++;
+                }
+                stack.push(p);
+                p = p.venstre;
+            }
+            p = stack.pop();
+            p = p.høyre;
+        }
+
+        String[] strings = new String[i];
+
+        while (!bladStack.isEmpty()){
+            p = bladStack.pop();
+            while (p != null){
+                hjelpeBladStack.push(p);
+                p = p.forelder;
+            }
+
+            StringJoiner s = new StringJoiner(", ", "[", "]");
+            while (!hjelpeBladStack.isEmpty()){
+                p = hjelpeBladStack.pop();
+                s.add(p.verdi.toString());
+            }
+
+            strings[j] = s.toString();
+            j++;
+        }
+        return strings;
     }
 
     public String bladnodeverdier() {
@@ -376,7 +431,6 @@ public class ObligSBinTre<T> implements Beholder<T> {
         Deque<Node> stack = new ArrayDeque<>();
         Node p = rot;
         StringJoiner s = new StringJoiner(", ", "[","]");
-
 
         stack.push(p);
         Node prev = null;
