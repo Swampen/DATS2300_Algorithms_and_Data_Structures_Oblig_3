@@ -304,7 +304,6 @@ public class ObligSBinTre<T> implements Beholder<T> {
         Deque<Node> stack = new ArrayDeque<>();
         Node p = rot;
 
-        //Loop så lenge stacken ikke er tom
         while (p != null || !stack.isEmpty()) {
 
             while (p !=  null) {
@@ -340,20 +339,29 @@ public class ObligSBinTre<T> implements Beholder<T> {
             return "[]";
         }
         String [] strings = grener();
-        String lengste = "";
-
+        String lengsteString = strings[0];
+        int lengsteLength = 0;
         if (strings.length == 1){
-            return strings[0];
+            return lengsteString;
+        }else {
+
+            for (String counter:lengsteString.split(",")) {
+                lengsteLength++;
+            }
         }
 
         for (int i = 1; i < strings.length; i++){
-            String string1 = strings[i-1];
-            String string2 = strings[i];
-            if (string1.length() >= string2.length()){
-                lengste = string1;
+            String string = strings[i];
+            int stringLength = 0;
+            for (String count:string.split(",")) {
+                stringLength++;
+            }
+            if (stringLength >= lengsteLength){
+                lengsteLength = stringLength;
+                lengsteString = string;
             }
         }
-        return lengste;
+        return lengsteString;
     }
 
     public String[] grener() {
