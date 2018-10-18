@@ -313,11 +313,84 @@ public class ObligSBinTre<T> implements Beholder<T> {
     }
 
     public String bladnodeverdier() {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        if(antall == 0){
+            return "[]";
+        }
+
+        StringJoiner s = new StringJoiner(", ", "[", "]");
+        Node p = rot;
+        traverserBlad(p, s);
+
+        return s.toString();
+    }
+
+    public void traverserBlad(Node p, StringJoiner s){
+        if(p.venstre != null){
+            traverserBlad(p.venstre, s);
+        }
+        if(p.venstre == null &&  p.høyre == null){
+            s.add(p.verdi.toString());
+        }
+
+
+        if(p.høyre != null){
+            traverserBlad(p.høyre, s);
+        }
     }
 
     public String postString() {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        if(antall == 0){
+            return "[]";
+        }
+        Deque<Node> stack = new ArrayDeque<>();
+        Node p = rot;
+        StringJoiner s = new StringJoiner(", ", "[","]");
+
+
+        stack.push(p);
+        Node prev = null;
+        while (!stack.isEmpty())
+        {
+            Node current = stack.peek();
+
+            /* go down the tree in search of a leaf an if so process it
+            and pop stack otherwise move down */
+            if (prev == null || prev.venstre == current ||
+                    prev.høyre == current)
+            {
+                if (current.venstre != null)
+                    stack.push(current.venstre);
+                else if (current.høyre != null)
+                    stack.push(current.høyre);
+                else
+                {
+                    stack.pop();
+                    s.add(current.verdi.toString());
+                }
+
+            }
+            else if (current.venstre == prev)
+            {
+                if (current.høyre != null)
+                    stack.push(current.høyre);
+                else
+                {
+                    stack.pop();
+                    s.add(current.verdi.toString());
+                }
+
+                /* go up the tree from right node and after coming back
+                 from right node process parent and pop stack */
+            }
+            else if (current.høyre == prev)
+            {
+                stack.pop();
+                s.add(current.verdi.toString());
+            }
+
+            prev = current;
+        }
+        return s.toString();
     }
 
     @Override
