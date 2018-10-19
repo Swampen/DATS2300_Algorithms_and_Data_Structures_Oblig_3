@@ -486,7 +486,10 @@ public class ObligSBinTre<T> implements Beholder<T> {
         private int iteratorendringer = endringer;
 
         private BladnodeIterator(){
-            while(p.høyre != null && p.venstre != null){
+            if(p == null){
+                throw new NoSuchElementException("Tomt tre");
+            }
+            while(p.høyre != null || p.venstre != null){
                 q = p;
                 if(p.venstre != null){
                     p = p.venstre;
