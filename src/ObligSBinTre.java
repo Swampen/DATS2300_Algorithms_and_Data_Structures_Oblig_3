@@ -440,7 +440,6 @@ public class ObligSBinTre<T> implements Beholder<T> {
             return p;
         }
 
-
         if(p.høyre != null){
             traverserBladNext(p.høyre);
         }
@@ -515,7 +514,8 @@ public class ObligSBinTre<T> implements Beholder<T> {
                     p = p.høyre;
                 }
             }
-            //throw new UnsupportedOperationException("Ikke kodet ennå!");
+
+
         }
 
         @Override
@@ -532,13 +532,15 @@ public class ObligSBinTre<T> implements Beholder<T> {
             if (!hasNext()) {
                 throw new NoSuchElementException("Tomt eller ingen verdier igjen!");
             }
+            q = p;
 
             removeOK = true;
 
-            p = traverserBladNext(p);
-            T pVerdi = p.verdi;
+            while ((p.høyre != null && p.venstre != null) || p == q){
+                p = nesteInorden(p);
+            }
 
-            return pVerdi;
+            return p.verdi;
         }
 
         @Override
