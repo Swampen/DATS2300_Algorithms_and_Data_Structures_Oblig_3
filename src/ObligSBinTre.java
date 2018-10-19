@@ -486,7 +486,16 @@ public class ObligSBinTre<T> implements Beholder<T> {
         private int iteratorendringer = endringer;
 
         private BladnodeIterator(){
-            throw new UnsupportedOperationException("Ikke kodet ennå!");
+            while(p.høyre != null && p.venstre != null){
+                q = p;
+                if(p.venstre != null){
+                    p = p.venstre;
+                }
+                if(p.høyre != null){
+                    p = p.høyre;
+                }
+            }
+            //throw new UnsupportedOperationException("Ikke kodet ennå!");
         }
 
         @Override
