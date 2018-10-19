@@ -9,6 +9,7 @@ public class Main {
         System.out.println(tre.postString()); // [10, 9, 8, 7, 7, 6, 4, 4, 4, 2, 1]
 
         System.out.println(Arrays.toString(tre.grener()));
+        for(Integer c : tre) System.out.print(c + " ");
 
     }
 }

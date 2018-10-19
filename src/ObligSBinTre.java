@@ -432,6 +432,22 @@ public class ObligSBinTre<T> implements Beholder<T> {
         }
     }
 
+    public Node traverserBladNext(Node p){
+        if(p.venstre != null){
+            traverserBladNext(p.venstre);
+        }
+        if(p.venstre == null &&  p.høyre == null){
+            return p;
+        }
+
+
+        if(p.høyre != null){
+            traverserBladNext(p.høyre);
+        }
+
+        return p;
+    }
+
     public String postString() {
         if(antall == 0){
             return "[]";
@@ -486,8 +502,9 @@ public class ObligSBinTre<T> implements Beholder<T> {
         private int iteratorendringer = endringer;
 
         private BladnodeIterator(){
+            p = rot;
             if(p == null){
-                throw new NoSuchElementException("Tomt tre");
+                return;
             }
             while(p.høyre != null || p.venstre != null){
                 q = p;
@@ -508,7 +525,20 @@ public class ObligSBinTre<T> implements Beholder<T> {
 
         @Override
         public T next() {
-            throw new UnsupportedOperationException("Ikke kodet ennå!");
+            if (endringer != iteratorendringer) {
+                throw new ConcurrentModificationException("Listen er endret!");
+            }
+
+            if (!hasNext()) {
+                throw new NoSuchElementException("Tomt eller ingen verdier igjen!");
+            }
+
+            removeOK = true;
+
+            p = traverserBladNext(p);
+            T pVerdi = p.verdi;
+
+            return pVerdi;
         }
 
         @Override
