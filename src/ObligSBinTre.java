@@ -97,12 +97,10 @@ public class ObligSBinTre<T> implements Beholder<T> {
             if (cmp < 0) {
                 q = p;
                 p = p.venstre;
-            }
-            else if (cmp > 0) {
+            } else if (cmp > 0) {
                 q = p;
                 p = p.høyre;
-            }
-            else {
+            } else {
                 break;
             }
         }
@@ -115,21 +113,18 @@ public class ObligSBinTre<T> implements Beholder<T> {
             Node<T> b = p.venstre != null ? p.venstre : p.høyre;
             if (p == rot){
                 rot = b;
-            }
-            else if (p == q.venstre) {
+            } else if (p == q.venstre) {
                 q.venstre = b;
                 if (b != null) {
                     b.forelder = q;
                 }
-            }
-            else {
+            } else {
                 q.høyre = b;
                 if (b != null) {
                     b.forelder = q;
                 }
             }
-        }
-        else {
+        } else {
             Node<T> s = null, r = p.høyre;
             while (r.venstre != null) {
                 r = r.venstre;
@@ -143,8 +138,7 @@ public class ObligSBinTre<T> implements Beholder<T> {
                 if (r.høyre != null) {
                     r.høyre.forelder = s.venstre;
                 }
-            }
-            else{
+            } else{
                 s.høyre = r.høyre;
                 if (r.høyre != null) {
                     r.høyre.forelder = s.høyre;
@@ -342,7 +336,7 @@ public class ObligSBinTre<T> implements Beholder<T> {
             return "[]";
         }
         String [] strings = grener();
-        String lengsteString = strings[0];
+        String lengsteString = strings[strings.length-1];
         int lengsteLength = 0;
         if (strings.length == 1){
             return lengsteString;
@@ -353,7 +347,7 @@ public class ObligSBinTre<T> implements Beholder<T> {
             }
         }
 
-        for (int i = 1; i < strings.length; i++){
+        for (int i = strings.length-2; i >= 0; i--){
             String string = strings[i];
             int stringLength = 0;
             for (String count:string.split(",")) {
@@ -403,8 +397,9 @@ public class ObligSBinTre<T> implements Beholder<T> {
                 s.add(p.verdi.toString());
             }
 
-            strings[j] = s.toString();
-            j++;
+
+            strings[i-1] = s.toString();
+            i--;
         }
         return strings;
     }
@@ -434,22 +429,7 @@ public class ObligSBinTre<T> implements Beholder<T> {
             traverserBlad(p.høyre, s);
         }
     }
-
-    public Node traverserBladNext(Node p){
-        if(p.venstre != null){
-            traverserBladNext(p.venstre);
-        }
-        if(p.venstre == null &&  p.høyre == null){
-            return p;
-        }
-
-        if(p.høyre != null){
-            traverserBladNext(p.høyre);
-        }
-
-        return p;
-    }
-
+    
     public String postString() {
         if(antall == 0){
             return "[]";

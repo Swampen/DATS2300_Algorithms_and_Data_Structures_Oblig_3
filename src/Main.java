@@ -3,13 +3,12 @@ import java.util.Comparator;
 
 public class Main {
     public static void main(String[] args) {
-        int[] a = {4,7,2,9,4,10,8,7,4,6,1};
-        ObligSBinTre<Integer> tre = new ObligSBinTre<>(Comparator.naturalOrder());
-        for (int verdi : a) tre.leggInn(verdi);
-        System.out.println(tre.postString()); // [10, 9, 8, 7, 7, 6, 4, 4, 4, 2, 1]
+        ObligSBinTre<Character> tre = new ObligSBinTre<>(Comparator.naturalOrder());
+        char[] verdier = "IATBHJCRSOFELKGDMPQN".toCharArray();
+        for (char c : verdier) tre.leggInn(c);
 
-        System.out.println(Arrays.toString(tre.grener()));
-        for(Integer c : tre) System.out.print(c + " ");
+        String[] s = tre.grener();
+        for (String gren : s) System.out.println(gren);
 
     }
 }
