@@ -59,6 +59,7 @@ public class ObligSBinTre<T> implements Beholder<T> {
             q.høyre = p;                        // høyre barn til q
         }
 
+        endringer++;
         antall++;                                // én verdi mer i treet
         return true;                             // vellykket innlegging
     }
@@ -151,6 +152,7 @@ public class ObligSBinTre<T> implements Beholder<T> {
             }
         }
 
+        endringer++;
         antall--;   // det er nå én node mindre i treet
         return true;
 
@@ -218,6 +220,7 @@ public class ObligSBinTre<T> implements Beholder<T> {
             if (fjern.venstre == null && fjern.høyre == null){
                 if (fjern == rot){
                     rot = null;
+                    endringer++;
                     antall--;
                     break;
                 }
@@ -230,6 +233,7 @@ public class ObligSBinTre<T> implements Beholder<T> {
                 }
                 fjern.verdi = null;
                 fjern = temp;
+                endringer++;
                 antall--;
             }
         }
@@ -260,7 +264,7 @@ public class ObligSBinTre<T> implements Beholder<T> {
         }
         Node p = rot;
 
-        while (p.venstre != null){
+        while(p.venstre != null){
             p = p.venstre;
         }
 
@@ -298,7 +302,6 @@ public class ObligSBinTre<T> implements Beholder<T> {
         }
         return s.toString();
     }
-
 
     public String høyreGren() {
         Deque<Node> stack = new ArrayDeque<>();
@@ -506,16 +509,13 @@ public class ObligSBinTre<T> implements Beholder<T> {
                 return;
             }
             while(p.høyre != null || p.venstre != null){
-                q = p;
                 if(p.venstre != null){
                     p = p.venstre;
                 }
-                if(p.høyre != null){
+                if(p.høyre != null && p.venstre == null){
                     p = p.høyre;
                 }
             }
-
-
         }
 
         @Override
@@ -536,11 +536,11 @@ public class ObligSBinTre<T> implements Beholder<T> {
 
             removeOK = true;
 
-            while ((p.høyre != null && p.venstre != null) || p == q){
+            while (p != null && ((p.høyre != null || p.venstre != null) || p == q)){
                 p = nesteInorden(p);
             }
 
-            return p.verdi;
+            return q.verdi;
         }
 
         @Override
