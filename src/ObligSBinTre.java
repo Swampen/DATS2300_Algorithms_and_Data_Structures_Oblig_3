@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.function.Consumer;
 
 public class ObligSBinTre<T> implements Beholder<T> {
     private static final class Node<T>{
@@ -113,7 +114,7 @@ public class ObligSBinTre<T> implements Beholder<T> {
             Node<T> b = p.venstre != null ? p.venstre : p.høyre;
             if (p == rot){
                 rot = b;
-            } else if (p == q.venstre) {
+            } else if (p == (q != null ? q.venstre : null)) {
                 q.venstre = b;
                 if (b != null) {
                     b.forelder = q;
@@ -484,7 +485,6 @@ public class ObligSBinTre<T> implements Beholder<T> {
         private int iteratorendringer = endringer;
 
         private BladnodeIterator(){
-            p = rot;
             if(p == null){
                 return;
             }
@@ -525,7 +525,37 @@ public class ObligSBinTre<T> implements Beholder<T> {
 
         @Override
         public void remove() {
-            throw new UnsupportedOperationException("Ikke kodet ennå!");
+            if (endringer != iteratorendringer) {
+                throw new ConcurrentModificationException("Listen er endret!");
+            }
+            if (!removeOK) {
+                throw new IllegalStateException("Ulovlig tilstand!");
+            }
+            if (q == null) {
+                return;
+            }
+
+            removeOK = false;
+            Node<T> parent = q.forelder;
+            if (parent != null) {
+                if (parent.venstre == q) {
+                    parent.venstre = null;
+                } else {
+                    parent.høyre = null;
+                }
+            }
+            q.verdi = null;
+            q.forelder = null;
+
+
+
+            endringer++;
+            iteratorendringer++;
+            antall--;
         }
+    }
+
+    public void fjernHvis(Consumer<? super T> action){
+
     }
 }
