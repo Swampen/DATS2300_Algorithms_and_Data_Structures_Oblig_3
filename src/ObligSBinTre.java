@@ -280,11 +280,9 @@ public class ObligSBinTre<T> implements Beholder<T> {
         StringJoiner s = new StringJoiner(", ", "[","]");
 
         //Loop så lenge stacken ikke er tom
-        while (p != null || !stack.isEmpty())
-        {
+        while (p != null || !stack.isEmpty()) {
 
-            while (p !=  null)
-            {
+            while (p !=  null) {
                 stack.push(p);
                 p = p.høyre;
             }
@@ -463,8 +461,7 @@ public class ObligSBinTre<T> implements Beholder<T> {
                     s.add(current.verdi.toString());
                 }
             }
-            else if (current.høyre == prev)
-            {
+            else if (current.høyre == prev) {
                 stack.pop();
                 s.add(current.verdi.toString());
             }
@@ -553,9 +550,5 @@ public class ObligSBinTre<T> implements Beholder<T> {
             iteratorendringer++;
             antall--;
         }
-    }
-
-    public void fjernHvis(Consumer<? super T> action){
-
     }
 }
